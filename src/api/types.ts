@@ -12,6 +12,11 @@ export interface Food {
   tasteRating: number;
 }
 
+export interface InventoryFood extends Food {
+  /** Number of units currently in inventory. */
+  quantity: number;
+}
+
 export interface CreateFoodRequest {
   name: string;
   calories: number;

@@ -1,16 +1,31 @@
+import { StatCard } from '../components/StatCard';
+import { useCatalogEntries } from '../hooks/useCatalogEntries';
+import { useSnackInventory } from '../hooks/useSnackInventory';
+
 export function DashboardPage() {
+  const { entries, loading: catalogLoading } = useCatalogEntries();
+  const { foods, loading: inventoryLoading } = useSnackInventory();
+  const inventoryQuantity = foods.reduce((total, food) => total + food.quantity, 0);
+
   return (
     <section className="page">
       <header className="page-header">
         <h1>Dashboard</h1>
       </header>
-      <div className="todo-card">
-        <h2>TODO</h2>
-        <ul className="todo-list">
-          <li>Add overview widgets (snack count, inventory summary, etc.)</li>
-          <li>Add quick links to catalog and inventory actions</li>
-          <li>Add recent activity feed</li>
-        </ul>
+
+      <div className="stat-grid">
+        <StatCard
+          title="Snack Catalog"
+          value={entries.length}
+          label={entries.length === 1 ? 'catalog entry' : 'catalog entries'}
+          loading={catalogLoading}
+        />
+        <StatCard
+          title="Snack Inventory"
+          value={inventoryQuantity}
+          label={inventoryQuantity === 1 ? 'inventory item' : 'inventory items'}
+          loading={inventoryLoading}
+        />
       </div>
     </section>
   );
