@@ -7,6 +7,6 @@ export interface NavItem {
 
 export const NAV_ITEMS: NavItem[] = [
   { id: 'dashboard', label: 'Dashboard' },
-  { id: 'catalog', label: 'Snack Catalog' },
-  { id: 'inventory', label: 'Snack Inventory' },
+  { id: 'catalog', label: 'Food Catalog' },
+  { id: 'inventory', label: 'Food Inventory' },
 ];

@@ -1,12 +1,12 @@
 import { useState } from 'react';
-import { AddSnackModal } from '../components/AddSnackModal';
+import { AddFoodModal } from '../components/AddFoodModal';
 import { Toast } from '../components/Toast';
 import { useCatalogEntries } from '../hooks/useCatalogEntries';
-import { useSnackInventory } from '../hooks/useSnackInventory';
+import { useFoodInventory } from '../hooks/useFoodInventory';
 
-export function SnackCatalogPage() {
+export function FoodCatalogPage() {
   const { entries, loading, error, addEntry } = useCatalogEntries();
-  const { addFood } = useSnackInventory({ auto: false });
+  const { addFood } = useFoodInventory({ auto: false });
   const [modalOpen, setModalOpen] = useState(false);
   const [addingUuid, setAddingUuid] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -20,7 +20,7 @@ export function SnackCatalogPage() {
       const food = await addFood(uuid);
       setSuccessMessage(`${name} added to inventory. Quantity: ${food.quantity}.`);
     } catch (err) {
-      setInventoryError(err instanceof Error ? err.message : 'Failed to add snack to inventory.');
+      setInventoryError(err instanceof Error ? err.message : 'Failed to add food to inventory.');
     } finally {
       setAddingUuid(null);
     }
@@ -30,11 +30,11 @@ export function SnackCatalogPage() {
     <section className="page">
       <header className="page-header page-header-row">
         <div>
-          <h1>Snack Catalog</h1>
+          <h1>Food Catalog</h1>
           <p className="page-subtitle">Food items available in the catalog.</p>
         </div>
         <button type="button" className="button primary" onClick={() => setModalOpen(true)}>
-          Add Snack
+          Add Food
         </button>
       </header>
 
@@ -60,7 +60,7 @@ export function SnackCatalogPage() {
               {entries.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="empty-cell">
-                    No snacks in the catalog yet. Add one to get started.
+                    No foods in the catalog yet. Add one to get started.
                   </td>
                 </tr>
               ) : (
@@ -91,7 +91,7 @@ export function SnackCatalogPage() {
         </div>
       )}
 
-      <AddSnackModal
+      <AddFoodModal
         open={modalOpen}
         onClose={() => setModalOpen(false)}
         onSubmit={async (body) => {

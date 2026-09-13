@@ -10,8 +10,8 @@ export function Sidebar({ items, activePage, onNavigate }: SidebarProps) {
   return (
     <aside className="sidebar">
       <div className="sidebar-brand">
-        <span className="sidebar-brand-mark">S</span>
-        <span className="sidebar-brand-name">Snack UI</span>
+        <span className="sidebar-brand-mark">F</span>
+        <span className="sidebar-brand-name">Food UI</span>
       </div>
       <nav className="sidebar-nav" aria-label="Main">
         <ul>

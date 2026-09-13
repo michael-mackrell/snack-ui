@@ -1,4 +1,4 @@
-// Types mirroring the models defined in the Snack Service TypeSpec.
+// Types mirroring the models defined in the Food Service TypeSpec.
 
 export interface Food {
   uuid: string;

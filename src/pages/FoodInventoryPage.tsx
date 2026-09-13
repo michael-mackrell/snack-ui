@@ -1,13 +1,13 @@
-import { useSnackInventory } from '../hooks/useSnackInventory';
+import { useFoodInventory } from '../hooks/useFoodInventory';
 
-export function SnackInventoryPage() {
-  const { foods, loading, error } = useSnackInventory();
+export function FoodInventoryPage() {
+  const { foods, loading, error } = useFoodInventory();
 
   return (
     <section className="page">
       <header className="page-header">
-        <h1>Snack Inventory</h1>
-        <p className="page-subtitle">Snacks currently in stock.</p>
+        <h1>Food Inventory</h1>
+        <p className="page-subtitle">Foods currently in stock.</p>
       </header>
 
       {loading && <p className="status-message">Loading inventory…</p>}
@@ -31,7 +31,7 @@ export function SnackInventoryPage() {
               {foods.length === 0 ? (
                 <tr>
                   <td colSpan={7} className="empty-cell">
-                    No snacks are currently in inventory.
+                    No foods are currently in inventory.
                   </td>
                 </tr>
               ) : (

@@ -3,14 +3,18 @@ interface StatCardProps {
   value: number | string;
   label: string;
   loading?: boolean;
+  onClick: () => void;
 }
 
-export function StatCard({ title, value, label, loading }: StatCardProps) {
+export function StatCard({ title, value, label, loading, onClick }: StatCardProps) {
   return (
-    <article className="stat-card">
-      <h2 className="stat-card-title">{title}</h2>
-      <p className="stat-card-value">{loading ? '…' : value}</p>
-      <p className="stat-card-label">{label}</p>
-    </article>
+    <button type="button" className="stat-card" onClick={onClick}>
+      <span className="stat-card-title">{title}</span>
+      <span className="stat-card-value">{loading ? '…' : value}</span>
+      <span className="stat-card-label">{label}</span>
+      <span className="stat-card-link" aria-hidden="true">
+        View details →
+      </span>
+    </button>
   );
 }

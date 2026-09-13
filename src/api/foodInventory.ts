@@ -7,7 +7,7 @@ interface RequestOptions {
   signal?: AbortSignal;
 }
 
-export const snackInventoryApi = {
+export const foodInventoryApi = {
   /** GET /inventory/foods */
   getAllFoods(options?: RequestOptions): Promise<InventoryFood[]> {
     return request(BASE_PATH, { method: 'GET', ...options });

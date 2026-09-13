@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { snackInventoryApi } from '../api/snackInventory';
+import { foodInventoryApi } from '../api/foodInventory';
 import type { InventoryFood } from '../api/types';
 
-interface UseSnackInventoryOptions {
+interface UseFoodInventoryOptions {
   /** Set to `false` to skip the initial fetch and call `refresh()` manually. */
   auto?: boolean;
 }
 
-export function useSnackInventory({ auto = true }: UseSnackInventoryOptions = {}) {
+export function useFoodInventory({ auto = true }: UseFoodInventoryOptions = {}) {
   const [foods, setFoods] = useState<InventoryFood[]>([]);
   const [loading, setLoading] = useState(auto);
   const [error, setError] = useState<Error | null>(null);
@@ -21,7 +21,7 @@ export function useSnackInventory({ auto = true }: UseSnackInventoryOptions = {}
     setLoading(true);
     setError(null);
     try {
-      setFoods(await snackInventoryApi.getAllFoods({ signal: controller.signal }));
+      setFoods(await foodInventoryApi.getAllFoods({ signal: controller.signal }));
     } catch (err) {
       if (err instanceof Error && err.name !== 'AbortError') setError(err);
     } finally {
@@ -34,10 +34,10 @@ export function useSnackInventory({ auto = true }: UseSnackInventoryOptions = {}
     return () => controllerRef.current?.abort();
   }, [auto, refresh]);
 
-  const getFood = useCallback((uuid: string) => snackInventoryApi.getFood(uuid), []);
+  const getFood = useCallback((uuid: string) => foodInventoryApi.getFood(uuid), []);
 
   const addFood = useCallback(async (uuid: string) => {
-    const updated = await snackInventoryApi.addFood(uuid);
+    const updated = await foodInventoryApi.addFood(uuid);
     setFoods((current) => {
       const exists = current.some((food) => food.uuid === uuid);
       return exists
@@ -48,7 +48,7 @@ export function useSnackInventory({ auto = true }: UseSnackInventoryOptions = {}
   }, []);
 
   const removeFood = useCallback(async (uuid: string) => {
-    await snackInventoryApi.removeFood(uuid);
+    await foodInventoryApi.removeFood(uuid);
     setFoods((current) =>
       current.flatMap((food) => {
         if (food.uuid !== uuid) return [food];

@@ -1,4 +1,4 @@
-// Thin API bindings for the `CatalogEntries` interface from the Snack
+// Thin API bindings for the `CatalogEntries` interface from the Food
 // Service TypeSpec (`@route("/catalog/entries")`). Kept 1:1 with the spec so
 // this file stays easy to diff against future TypeSpec changes.
 

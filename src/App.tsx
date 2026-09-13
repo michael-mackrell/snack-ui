@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { AppLayout } from './components/AppLayout';
 import { DashboardPage } from './pages/DashboardPage';
-import { SnackCatalogPage } from './pages/SnackCatalogPage';
-import { SnackInventoryPage } from './pages/SnackInventoryPage';
+import { FoodCatalogPage } from './pages/FoodCatalogPage';
+import { FoodInventoryPage } from './pages/FoodInventoryPage';
 import type { PageId } from './types/navigation';
 import './App.css';
 
@@ -11,9 +11,9 @@ function App() {
 
   return (
     <AppLayout activePage={activePage} onNavigate={setActivePage}>
-      {activePage === 'dashboard' && <DashboardPage />}
-      {activePage === 'catalog' && <SnackCatalogPage />}
-      {activePage === 'inventory' && <SnackInventoryPage />}
+      {activePage === 'dashboard' && <DashboardPage onNavigate={setActivePage} />}
+      {activePage === 'catalog' && <FoodCatalogPage />}
+      {activePage === 'inventory' && <FoodInventoryPage />}
     </AppLayout>
   );
 }

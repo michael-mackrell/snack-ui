@@ -1,10 +1,15 @@
 import { StatCard } from '../components/StatCard';
 import { useCatalogEntries } from '../hooks/useCatalogEntries';
-import { useSnackInventory } from '../hooks/useSnackInventory';
+import { useFoodInventory } from '../hooks/useFoodInventory';
+import type { PageId } from '../types/navigation';
 
-export function DashboardPage() {
+interface DashboardPageProps {
+  onNavigate: (page: PageId) => void;
+}
+
+export function DashboardPage({ onNavigate }: DashboardPageProps) {
   const { entries, loading: catalogLoading } = useCatalogEntries();
-  const { foods, loading: inventoryLoading } = useSnackInventory();
+  const { foods, loading: inventoryLoading } = useFoodInventory();
   const inventoryQuantity = foods.reduce((total, food) => total + food.quantity, 0);
 
   return (
@@ -15,16 +20,18 @@ export function DashboardPage() {
 
       <div className="stat-grid">
         <StatCard
-          title="Snack Catalog"
+          title="Food Catalog"
           value={entries.length}
           label={entries.length === 1 ? 'catalog entry' : 'catalog entries'}
           loading={catalogLoading}
+          onClick={() => onNavigate('catalog')}
         />
         <StatCard
-          title="Snack Inventory"
+          title="Food Inventory"
           value={inventoryQuantity}
           label={inventoryQuantity === 1 ? 'inventory item' : 'inventory items'}
           loading={inventoryLoading}
+          onClick={() => onNavigate('inventory')}
         />
       </div>
     </section>

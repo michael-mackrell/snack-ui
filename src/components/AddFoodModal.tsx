@@ -1,7 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import type { CreateFoodRequest } from '../api/types';
 
-interface AddSnackModalProps {
+interface AddFoodModalProps {
   open: boolean;
   onClose: () => void;
   onSubmit: (body: CreateFoodRequest) => Promise<void>;
@@ -16,7 +16,7 @@ const EMPTY_FORM: CreateFoodRequest = {
   tasteRating: 3,
 };
 
-export function AddSnackModal({ open, onClose, onSubmit }: AddSnackModalProps) {
+export function AddFoodModal({ open, onClose, onSubmit }: AddFoodModalProps) {
   const [form, setForm] = useState<CreateFoodRequest>(EMPTY_FORM);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -39,7 +39,7 @@ export function AddSnackModal({ open, onClose, onSubmit }: AddSnackModalProps) {
       setForm(EMPTY_FORM);
       onClose();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to add snack');
+      setError(err instanceof Error ? err.message : 'Failed to add food');
     } finally {
       setSubmitting(false);
     }
@@ -51,11 +51,11 @@ export function AddSnackModal({ open, onClose, onSubmit }: AddSnackModalProps) {
         className="modal"
         role="dialog"
         aria-modal="true"
-        aria-labelledby="add-snack-title"
+        aria-labelledby="add-food-title"
         onClick={(event) => event.stopPropagation()}
       >
         <header className="modal-header">
-          <h2 id="add-snack-title">Add Snack</h2>
+          <h2 id="add-food-title">Add Food</h2>
           <button type="button" className="icon-button" onClick={handleClose} aria-label="Close">
             ×
           </button>
@@ -142,7 +142,7 @@ export function AddSnackModal({ open, onClose, onSubmit }: AddSnackModalProps) {
               Cancel
             </button>
             <button type="submit" className="button primary" disabled={submitting}>
-              {submitting ? 'Adding…' : 'Add Snack'}
+              {submitting ? 'Adding…' : 'Add Food'}
             </button>
           </footer>
         </form>
