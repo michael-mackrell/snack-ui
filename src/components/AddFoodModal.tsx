@@ -9,10 +9,6 @@ interface AddFoodModalProps {
 
 const EMPTY_FORM: CreateFoodRequest = {
   name: '',
-  calories: 0,
-  protein: 0,
-  carbs: 0,
-  fat: 0,
   tasteRating: 3,
 };
 
@@ -71,56 +67,6 @@ export function AddFoodModal({ open, onClose, onSubmit }: AddFoodModalProps) {
               onChange={(event) => setForm({ ...form, name: event.target.value })}
             />
           </label>
-
-          <label>
-            Calories
-            <input
-              type="number"
-              required
-              min={0}
-              step={1}
-              value={form.calories}
-              onChange={(event) => setForm({ ...form, calories: Number(event.target.value) })}
-            />
-          </label>
-
-          <div className="form-row">
-            <label>
-              Protein (g)
-              <input
-                type="number"
-                required
-                min={0}
-                step={0.1}
-                value={form.protein}
-                onChange={(event) => setForm({ ...form, protein: Number(event.target.value) })}
-              />
-            </label>
-
-            <label>
-              Carbs (g)
-              <input
-                type="number"
-                required
-                min={0}
-                step={0.1}
-                value={form.carbs}
-                onChange={(event) => setForm({ ...form, carbs: Number(event.target.value) })}
-              />
-            </label>
-
-            <label>
-              Fat (g)
-              <input
-                type="number"
-                required
-                min={0}
-                step={0.1}
-                value={form.fat}
-                onChange={(event) => setForm({ ...form, fat: Number(event.target.value) })}
-              />
-            </label>
-          </div>
 
           <label>
             Taste rating (1–5)

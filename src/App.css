@@ -383,6 +383,12 @@
   overflow: hidden;
 }
 
+.modal-wide {
+  width: min(760px, 100%);
+  max-height: calc(100svh - 32px);
+  overflow: auto;
+}
+
 .modal-header {
   display: flex;
   align-items: center;
@@ -392,6 +398,27 @@
 
 .modal-header h2 {
   margin: 0;
+}
+
+.modal-header-with-action {
+  gap: 16px;
+}
+
+.modal-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.modal-body {
+  padding: 20px 24px 24px;
+}
+
+.empty-modal-message {
+  margin: 0;
+  padding: 28px 16px;
+  text-align: center;
+  color: var(--text);
 }
 
 .modal-form {
@@ -426,17 +453,6 @@
 .modal-form input:focus {
   outline: 2px solid var(--accent-border);
   border-color: var(--accent);
-}
-
-.form-row {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-}
-
-/* Modal is ~480px max — stack macros so inputs don't overflow */
-.modal .form-row {
-  grid-template-columns: 1fr;
 }
 
 .form-error {
@@ -482,5 +498,13 @@
   .page-header-row {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .modal-header-with-action {
+    align-items: flex-start;
+  }
+
+  .modal-header-actions {
+    flex-shrink: 0;
   }
 }

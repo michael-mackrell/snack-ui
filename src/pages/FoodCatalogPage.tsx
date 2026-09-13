@@ -48,10 +48,6 @@ export function FoodCatalogPage() {
             <thead>
               <tr>
                 <th>Name</th>
-                <th>Calories</th>
-                <th>Protein (g)</th>
-                <th>Carbs (g)</th>
-                <th>Fat (g)</th>
                 <th>Taste</th>
                 <th>Actions</th>
               </tr>
@@ -59,7 +55,7 @@ export function FoodCatalogPage() {
             <tbody>
               {entries.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="empty-cell">
+                  <td colSpan={3} className="empty-cell">
                     No foods in the catalog yet. Add one to get started.
                   </td>
                 </tr>
@@ -67,10 +63,6 @@ export function FoodCatalogPage() {
                 entries.map((entry) => (
                   <tr key={entry.uuid}>
                     <td>{entry.name}</td>
-                    <td>{entry.calories}</td>
-                    <td>{entry.protein}</td>
-                    <td>{entry.carbs}</td>
-                    <td>{entry.fat}</td>
                     <td>{entry.tasteRating}</td>
                     <td>
                       <button
