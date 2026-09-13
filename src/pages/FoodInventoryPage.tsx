@@ -1,4 +1,5 @@
 import { useRef, useState } from 'react';
+import { catalogEntriesApi } from '../api/catalogEntries';
 import type { CreateFoodRequest, Food } from '../api/types';
 import { AddFoodModal } from '../components/AddFoodModal';
 import { AddInventoryFoodModal } from '../components/AddInventoryFoodModal';
@@ -19,6 +20,8 @@ export function FoodInventoryPage() {
     loading: catalogLoading,
     error: catalogError,
     addEntry,
+    deleteEntry,
+    uploadImage,
   } = useCatalogEntries({ auto: pickerOpen });
 
   const handleAddExistingFood = async (food: Food) => {
@@ -35,8 +38,16 @@ export function FoodInventoryPage() {
     }
   };
 
-  const handleCreateAndAddFood = async (body: CreateFoodRequest) => {
+  const handleCreateAndAddFood = async (body: CreateFoodRequest, image?: File) => {
     const created = await addEntry(body);
+    if (image) {
+      try {
+        await uploadImage(created.uuid, image);
+      } catch (err) {
+        await deleteEntry(created.uuid).catch(() => undefined);
+        throw err;
+      }
+    }
     try {
       const stockedFood = await addFood(created.uuid);
       setSuccessMessage(`${created.name} added to the catalog and inventory. Quantity: ${stockedFood.quantity}.`);
@@ -77,6 +88,7 @@ export function FoodInventoryPage() {
           <table className="data-table">
             <thead>
               <tr>
+                <th>Image</th>
                 <th>Name</th>
                 <th>Quantity</th>
                 <th>Taste</th>
@@ -85,13 +97,25 @@ export function FoodInventoryPage() {
             <tbody>
               {foods.length === 0 ? (
                 <tr>
-                  <td colSpan={3} className="empty-cell">
+                  <td colSpan={4} className="empty-cell">
                     No foods are currently in inventory.
                   </td>
                 </tr>
               ) : (
                 foods.map((food) => (
                   <tr key={food.uuid}>
+                    <td>
+                      {food.imageId ? (
+                        <img
+                          className="food-thumbnail"
+                          src={catalogEntriesApi.imageUrl(food.uuid, food.imageId)}
+                          alt=""
+                          loading="lazy"
+                        />
+                      ) : (
+                        <span className="food-thumbnail-placeholder" aria-label="No image">—</span>
+                      )}
+                    </td>
                     <td>{food.name}</td>
                     <td>{food.quantity}</td>
                     <td>{food.tasteRating}</td>
@@ -125,8 +149,8 @@ export function FoodInventoryPage() {
           if (returnToPickerOnClose.current) setPickerOpen(true);
           returnToPickerOnClose.current = true;
         }}
-        onSubmit={async (body) => {
-          await handleCreateAndAddFood(body);
+        onSubmit={async (body, image) => {
+          await handleCreateAndAddFood(body, image);
           returnToPickerOnClose.current = false;
         }}
       />

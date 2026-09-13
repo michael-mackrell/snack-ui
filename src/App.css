@@ -461,6 +461,46 @@
   font-size: 14px;
 }
 
+.field-hint {
+  color: var(--text);
+  font-size: 12px;
+}
+
+.food-thumbnail,
+.food-thumbnail-placeholder {
+  display: grid;
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  background: var(--code-bg);
+}
+
+.food-thumbnail {
+  object-fit: cover;
+}
+
+.food-thumbnail-placeholder {
+  place-content: center;
+  color: var(--text);
+}
+
+.image-upload-button {
+  display: inline-block;
+  margin-right: 8px;
+  padding: 6px 12px;
+  border-color: var(--border);
+  color: var(--text-h);
+  cursor: pointer;
+}
+
+.image-upload-button input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
 .modal-footer {
   display: flex;
   flex-wrap: wrap;

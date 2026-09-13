@@ -31,10 +31,11 @@ export async function request<T>(
   path: string,
   { method = 'GET', body, signal }: RequestOptions = {},
 ): Promise<T> {
+  const isFormData = body instanceof FormData;
   const response = await fetch(`${API_BASE_URL}${path}`, {
     method,
-    headers: body !== undefined ? { 'Content-Type': 'application/json' } : undefined,
-    body: body !== undefined ? JSON.stringify(body) : undefined,
+    headers: body !== undefined && !isFormData ? { 'Content-Type': 'application/json' } : undefined,
+    body: body === undefined ? undefined : isFormData ? body : JSON.stringify(body),
     signal,
   });
 
@@ -47,9 +48,14 @@ export async function request<T>(
   const data = text ? JSON.parse(text) : undefined;
 
   if (!response.ok) {
-    const message = (data as ApiErrorBody | undefined)?.message ?? `Request failed with status ${response.status}`;
+    const errorBody = data as ApiErrorBody | undefined;
+    const message = errorBody?.detail ?? errorBody?.message ?? `Request failed with status ${response.status}`;
     throw new ApiError(response.status, message, data);
   }
 
   return data as T;
+}
+
+export function apiUrl(path: string): string {
+  return `${API_BASE_URL}${path}`;
 }

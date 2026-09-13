@@ -4,7 +4,7 @@ import type { CreateFoodRequest } from '../api/types';
 interface AddFoodModalProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (body: CreateFoodRequest) => Promise<void>;
+  onSubmit: (body: CreateFoodRequest, image?: File) => Promise<void>;
 }
 
 const EMPTY_FORM: CreateFoodRequest = {
@@ -16,12 +16,14 @@ export function AddFoodModal({ open, onClose, onSubmit }: AddFoodModalProps) {
   const [form, setForm] = useState<CreateFoodRequest>(EMPTY_FORM);
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [image, setImage] = useState<File | undefined>();
 
   if (!open) return null;
 
   const handleClose = () => {
     if (submitting) return;
     setForm(EMPTY_FORM);
+    setImage(undefined);
     setError(null);
     onClose();
   };
@@ -31,8 +33,9 @@ export function AddFoodModal({ open, onClose, onSubmit }: AddFoodModalProps) {
     setSubmitting(true);
     setError(null);
     try {
-      await onSubmit(form);
+      await onSubmit(form, image);
       setForm(EMPTY_FORM);
+      setImage(undefined);
       onClose();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Failed to add food');
@@ -66,6 +69,16 @@ export function AddFoodModal({ open, onClose, onSubmit }: AddFoodModalProps) {
               value={form.name}
               onChange={(event) => setForm({ ...form, name: event.target.value })}
             />
+          </label>
+
+          <label>
+            Image (optional)
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              onChange={(event) => setImage(event.target.files?.[0])}
+            />
+            <span className="field-hint">JPEG, PNG, or WebP. Maximum 5 MB.</span>
           </label>
 
           <label>

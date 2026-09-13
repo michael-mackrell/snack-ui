@@ -2,7 +2,7 @@
 // Service TypeSpec (`@route("/catalog/entries")`). Kept 1:1 with the spec so
 // this file stays easy to diff against future TypeSpec changes.
 
-import { request } from './http';
+import { apiUrl, request } from './http';
 import type { CreateFoodRequest, Food, UpdateFoodRequest } from './types';
 
 const BASE_PATH = '/catalog/entries';
@@ -30,5 +30,21 @@ export const catalogEntriesApi = {
   /** DELETE /catalog/entries/{uuid} */
   deleteEntry(uuid: string, options?: RequestOptions): Promise<void> {
     return request(`${BASE_PATH}/${uuid}`, { method: 'DELETE', ...options });
+  },
+
+  /** PUT /catalog/entries/{uuid}/image */
+  uploadImage(uuid: string, image: File, options?: RequestOptions): Promise<Food> {
+    const body = new FormData();
+    body.append('image', image);
+    return request(`${BASE_PATH}/${uuid}/image`, { method: 'PUT', body, ...options });
+  },
+
+  /** DELETE /catalog/entries/{uuid}/image */
+  deleteImage(uuid: string, options?: RequestOptions): Promise<void> {
+    return request(`${BASE_PATH}/${uuid}/image`, { method: 'DELETE', ...options });
+  },
+
+  imageUrl(uuid: string, imageId: string): string {
+    return apiUrl(`${BASE_PATH}/${uuid}/image?v=${encodeURIComponent(imageId)}`);
   },
 };

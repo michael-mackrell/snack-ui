@@ -57,5 +57,11 @@ export function useCatalogEntries({ auto = true }: UseCatalogEntriesOptions = {}
     setEntries((current) => current.filter((entry) => entry.uuid !== uuid));
   }, []);
 
-  return { entries, loading, error, refresh, addEntry, updateEntry, deleteEntry };
+  const uploadImage = useCallback(async (uuid: string, image: File) => {
+    const updated = await catalogEntriesApi.uploadImage(uuid, image);
+    setEntries((current) => current.map((entry) => (entry.uuid === uuid ? updated : entry)));
+    return updated;
+  }, []);
+
+  return { entries, loading, error, refresh, addEntry, updateEntry, deleteEntry, uploadImage };
 }
