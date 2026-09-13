@@ -11,15 +11,23 @@ interface RequestOptions {
   signal?: AbortSignal;
 }
 
+export type CatalogSort = 'category';
+
+interface ListCatalogEntriesOptions extends RequestOptions {
+  sort?: CatalogSort;
+}
+
 export const catalogEntriesApi = {
   /** POST /catalog/entries */
   addEntry(body: CreateFoodRequest, options?: RequestOptions): Promise<Food> {
     return request(BASE_PATH, { method: 'POST', body, ...options });
   },
 
-  /** GET /catalog/entries */
-  getAllEntries(options?: RequestOptions): Promise<Food[]> {
-    return request(BASE_PATH, { method: 'GET', ...options });
+  /** GET /catalog/entries?sort=category */
+  getAllEntries(options?: ListCatalogEntriesOptions): Promise<Food[]> {
+    const { sort, ...requestOptions } = options ?? {};
+    const path = sort ? `${BASE_PATH}?sort=${encodeURIComponent(sort)}` : BASE_PATH;
+    return request(path, { method: 'GET', ...requestOptions });
   },
 
   /** PUT /catalog/entries/{uuid} */

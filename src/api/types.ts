@@ -4,6 +4,7 @@ export interface Food {
   uuid: string;
   imageId?: string;
   name: string;
+  category: string;
   /** 1 (worst) to 5 (best) */
   tasteRating: number;
 }
@@ -15,6 +16,7 @@ export interface InventoryFood extends Food {
 
 export interface CreateFoodRequest {
   name: string;
+  category: string;
   /** 1 (worst) to 5 (best) */
   tasteRating: number;
 }

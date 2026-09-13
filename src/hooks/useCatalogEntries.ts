@@ -3,15 +3,16 @@
 // succeed, so components never have to manually re-fetch after a write.
 
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { catalogEntriesApi } from '../api/catalogEntries';
+import { catalogEntriesApi, type CatalogSort } from '../api/catalogEntries';
 import type { CreateFoodRequest, Food, UpdateFoodRequest } from '../api/types';
 
 interface UseCatalogEntriesOptions {
   /** Set to `false` to skip the initial fetch and call `refresh()` manually instead. */
   auto?: boolean;
+  sort?: CatalogSort;
 }
 
-export function useCatalogEntries({ auto = true }: UseCatalogEntriesOptions = {}) {
+export function useCatalogEntries({ auto = true, sort }: UseCatalogEntriesOptions = {}) {
   const [entries, setEntries] = useState<Food[]>([]);
   const [loading, setLoading] = useState(auto);
   const [error, setError] = useState<Error | null>(null);
@@ -25,20 +26,20 @@ export function useCatalogEntries({ auto = true }: UseCatalogEntriesOptions = {}
     setLoading(true);
     setError(null);
     try {
-      const data = await catalogEntriesApi.getAllEntries({ signal: controller.signal });
+      const data = await catalogEntriesApi.getAllEntries({ signal: controller.signal, sort });
       setEntries(data);
     } catch (err) {
       if ((err as Error).name !== 'AbortError') setError(err as Error);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [sort]);
 
   useEffect(() => {
     if (auto) refresh();
     return () => controllerRef.current?.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [auto]);
+  }, [auto, refresh]);
 
   const addEntry = useCallback(async (body: CreateFoodRequest) => {
     const created = await catalogEntriesApi.addEntry(body);

@@ -102,6 +102,31 @@
   gap: 16px;
 }
 
+.page-header-actions {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.page-header-actions label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  color: var(--text);
+  font-size: 12px;
+}
+
+.page-header-actions select {
+  min-width: 130px;
+  padding: 9px 32px 9px 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg);
+  color: var(--text-h);
+  font: inherit;
+  font-size: 15px;
+}
+
 .page-subtitle {
   color: var(--text);
   font-size: 16px;
@@ -538,6 +563,10 @@
   .page-header-row {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  .page-header-actions {
+    justify-content: space-between;
   }
 
   .modal-header-with-action {

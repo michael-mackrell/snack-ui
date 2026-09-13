@@ -62,6 +62,7 @@ export function AddInventoryFoodModal({
                 <thead>
                   <tr>
                     <th>Name</th>
+                    <th>Category</th>
                     <th>In inventory</th>
                     <th>Action</th>
                   </tr>
@@ -70,6 +71,7 @@ export function AddInventoryFoodModal({
                   {entries.map((entry) => (
                     <tr key={entry.uuid}>
                       <td>{entry.name}</td>
+                      <td>{entry.category}</td>
                       <td>{quantities.get(entry.uuid) ?? 0}</td>
                       <td>
                         <button

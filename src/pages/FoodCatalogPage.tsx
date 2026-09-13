@@ -6,7 +6,8 @@ import { useCatalogEntries } from '../hooks/useCatalogEntries';
 import { useFoodInventory } from '../hooks/useFoodInventory';
 
 export function FoodCatalogPage() {
-  const { entries, loading, error, addEntry, deleteEntry, uploadImage } = useCatalogEntries();
+  const [sort, setSort] = useState<'category' | undefined>();
+  const { entries, loading, error, addEntry, deleteEntry, uploadImage } = useCatalogEntries({ sort });
   const { addFood } = useFoodInventory({ auto: false });
   const [modalOpen, setModalOpen] = useState(false);
   const [addingUuid, setAddingUuid] = useState<string | null>(null);
@@ -48,9 +49,18 @@ export function FoodCatalogPage() {
           <h1>Food Catalog</h1>
           <p className="page-subtitle">Food items available in the catalog.</p>
         </div>
-        <button type="button" className="button primary" onClick={() => setModalOpen(true)}>
-          Add Food
-        </button>
+        <div className="page-header-actions">
+          <label>
+            Sort
+            <select value={sort ?? ''} onChange={(event) => setSort(event.target.value === 'category' ? 'category' : undefined)}>
+              <option value="">Default</option>
+              <option value="category">Category</option>
+            </select>
+          </label>
+          <button type="button" className="button primary" onClick={() => setModalOpen(true)}>
+            Add Food
+          </button>
+        </div>
       </header>
 
       {loading && <p className="status-message">Loading catalog…</p>}
@@ -64,6 +74,7 @@ export function FoodCatalogPage() {
               <tr>
                 <th>Image</th>
                 <th>Name</th>
+                <th>Category</th>
                 <th>Taste</th>
                 <th>Actions</th>
               </tr>
@@ -71,7 +82,7 @@ export function FoodCatalogPage() {
             <tbody>
               {entries.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="empty-cell">
+                  <td colSpan={5} className="empty-cell">
                     No foods in the catalog yet. Add one to get started.
                   </td>
                 </tr>
@@ -91,6 +102,7 @@ export function FoodCatalogPage() {
                       )}
                     </td>
                     <td>{entry.name}</td>
+                    <td>{entry.category}</td>
                     <td>{entry.tasteRating}</td>
                     <td>
                       <label className="button image-upload-button">

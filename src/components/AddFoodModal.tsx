@@ -9,6 +9,7 @@ interface AddFoodModalProps {
 
 const EMPTY_FORM: CreateFoodRequest = {
   name: '',
+  category: '',
   tasteRating: 3,
 };
 
@@ -68,6 +69,17 @@ export function AddFoodModal({ open, onClose, onSubmit }: AddFoodModalProps) {
               required
               value={form.name}
               onChange={(event) => setForm({ ...form, name: event.target.value })}
+            />
+          </label>
+
+          <label>
+            Category
+            <input
+              type="text"
+              required
+              value={form.category}
+              onChange={(event) => setForm({ ...form, category: event.target.value })}
+              placeholder="e.g. Fruit, Chips, Beverage"
             />
           </label>
 

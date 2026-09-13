@@ -90,6 +90,7 @@ export function FoodInventoryPage() {
               <tr>
                 <th>Image</th>
                 <th>Name</th>
+                <th>Category</th>
                 <th>Quantity</th>
                 <th>Taste</th>
               </tr>
@@ -97,7 +98,7 @@ export function FoodInventoryPage() {
             <tbody>
               {foods.length === 0 ? (
                 <tr>
-                  <td colSpan={4} className="empty-cell">
+                  <td colSpan={5} className="empty-cell">
                     No foods are currently in inventory.
                   </td>
                 </tr>
@@ -117,6 +118,7 @@ export function FoodInventoryPage() {
                       )}
                     </td>
                     <td>{food.name}</td>
+                    <td>{food.category}</td>
                     <td>{food.quantity}</td>
                     <td>{food.tasteRating}</td>
                   </tr>
